@@ -5,17 +5,27 @@ import { calculateScore } from "@/lib/scoring";
 import type { NormalizedListing } from "@/lib/sources/types";
 import { eq, sql } from "drizzle-orm";
 
+const CORS_HEADERS = {
+  "Access-Control-Allow-Origin": "*",
+  "Access-Control-Allow-Methods": "POST, OPTIONS",
+  "Access-Control-Allow-Headers": "Content-Type, Authorization",
+};
+
+export async function OPTIONS() {
+  return new NextResponse(null, { status: 204, headers: CORS_HEADERS });
+}
+
 export async function POST(request: NextRequest) {
   const authHeader = request.headers.get("authorization");
   if (authHeader !== `Bearer ${process.env.CRON_SECRET}`) {
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401, headers: CORS_HEADERS });
   }
 
   const body = await request.json();
   const items: NormalizedListing[] = body.listings;
 
   if (!Array.isArray(items) || items.length === 0) {
-    return NextResponse.json({ error: "No listings provided" }, { status: 400 });
+    return NextResponse.json({ error: "No listings provided" }, { status: 400, headers: CORS_HEADERS });
   }
 
   const results = { total: items.length, new: 0, updated: 0, errors: [] as string[] };
@@ -119,5 +129,5 @@ export async function POST(request: NextRequest) {
       sql`${listings.status} = 'new' AND ${listings.firstSeen} < NOW() - INTERVAL '24 hours'`
     );
 
-  return NextResponse.json(results);
+  return NextResponse.json(results, { headers: CORS_HEADERS });
 }

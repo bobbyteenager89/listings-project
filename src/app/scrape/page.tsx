@@ -3,18 +3,17 @@
 import { useState, useCallback } from "react";
 
 const SEARCH_URLS = [
-  {
-    label: "South Brooklyn",
-    url: "https://streeteasy.com/for-rent/south-brooklyn/price:-3200%7Cbeds%3A0?sort_by=listed_desc",
-  },
-  {
-    label: "Fort Greene",
-    url: "https://streeteasy.com/for-rent/fort-greene/price:-3200%7Cbeds%3A0?sort_by=listed_desc",
-  },
-  {
-    label: "Prospect Heights",
-    url: "https://streeteasy.com/for-rent/prospect-heights/price:-3200%7Cbeds%3A0?sort_by=listed_desc",
-  },
+  { label: "Park Slope", url: "https://streeteasy.com/for-rent/park-slope/price:-3200%7Cbeds%3A0?sort_by=listed_desc" },
+  { label: "Carroll Gardens", url: "https://streeteasy.com/for-rent/carroll-gardens/price:-3200%7Cbeds%3A0?sort_by=listed_desc" },
+  { label: "Cobble Hill", url: "https://streeteasy.com/for-rent/cobble-hill/price:-3200%7Cbeds%3A0?sort_by=listed_desc" },
+  { label: "Brooklyn Heights", url: "https://streeteasy.com/for-rent/brooklyn-heights/price:-3200%7Cbeds%3A0?sort_by=listed_desc" },
+  { label: "Boerum Hill", url: "https://streeteasy.com/for-rent/boerum-hill/price:-3200%7Cbeds%3A0?sort_by=listed_desc" },
+  { label: "Gowanus", url: "https://streeteasy.com/for-rent/gowanus/price:-3200%7Cbeds%3A0?sort_by=listed_desc" },
+  { label: "Fort Greene", url: "https://streeteasy.com/for-rent/fort-greene/price:-3200%7Cbeds%3A0?sort_by=listed_desc" },
+  { label: "Prospect Heights", url: "https://streeteasy.com/for-rent/prospect-heights/price:-3200%7Cbeds%3A0?sort_by=listed_desc" },
+  { label: "Downtown BK", url: "https://streeteasy.com/for-rent/downtown-brooklyn/price:-3200%7Cbeds%3A0?sort_by=listed_desc" },
+  { label: "Clinton Hill", url: "https://streeteasy.com/for-rent/clinton-hill/price:-3200%7Cbeds%3A0?sort_by=listed_desc" },
+  { label: "Red Hook", url: "https://streeteasy.com/for-rent/red-hook/price:-3200%7Cbeds%3A0?sort_by=listed_desc" },
 ];
 
 // Bookmarklet source (minified in the href below)
