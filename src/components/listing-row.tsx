@@ -92,7 +92,7 @@ export function ListingRow({ listing }: { listing: Listing }) {
         <TableCell>{listing.sqft ?? "—"}</TableCell>
         <TableCell>
           <span className={`text-sm ${isStale ? "text-amber-600 font-medium" : "text-muted-foreground"}`}>
-            {days !== null ? `${days}d` : "—"}
+            {days !== null ? (days === 0 ? "today" : days === 1 ? "1d" : `${days}d`) : "—"}
           </span>
           {isStale && <span className="text-xs text-amber-500 ml-1">stale</span>}
         </TableCell>
@@ -104,7 +104,7 @@ export function ListingRow({ listing }: { listing: Listing }) {
             {listing.newDev && <Badge variant="outline">New Dev</Badge>}
           </div>
         </TableCell>
-        <TableCell className="font-mono text-lg">{listing.score?.toFixed(0)}</TableCell>
+        <TableCell className="font-mono text-lg">{listing.score != null ? listing.score.toFixed(0) : "—"}</TableCell>
         <TableCell onClick={(e) => e.stopPropagation()}>
           <div className="flex gap-1">
             <Button

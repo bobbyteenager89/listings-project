@@ -76,7 +76,7 @@ export function ListingsTable() {
               { label: "Listing", value: "address", sortable: false },
               { label: "Price", value: "price", sortable: true },
               { label: "Sqft", value: "sqft", sortable: true },
-              { label: "Listed", value: "date", sortable: true },
+              { label: "Added", value: "date", sortable: true },
               { label: "Tags", value: "tags", sortable: false },
               { label: "Score", value: "score", sortable: true },
               { label: "", value: "actions", sortable: false },
