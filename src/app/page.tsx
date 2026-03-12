@@ -6,10 +6,20 @@ import { ListingsTable } from "@/components/listings-table";
 export default function Dashboard() {
   return (
     <main className="max-w-6xl mx-auto p-6">
-      <h1 className="text-2xl font-bold mb-1">Listings</h1>
-      <p className="text-muted-foreground text-sm mb-6">
-        South Brooklyn studios · $3,200 max
-      </p>
+      <div className="flex items-center justify-between mb-6">
+        <div>
+          <h1 className="text-2xl font-bold mb-1">Listings</h1>
+          <p className="text-muted-foreground text-sm">
+            NYC & LA · Rentals & Sublets
+          </p>
+        </div>
+        <a
+          href="/scrape"
+          className="text-sm text-blue-600 hover:underline"
+        >
+          Scrape →
+        </a>
+      </div>
 
       <Suspense fallback={<div className="text-muted-foreground">Loading stats...</div>}>
         <StatsBar />

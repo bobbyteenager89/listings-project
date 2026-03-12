@@ -30,19 +30,22 @@ export async function POST(request: NextRequest) {
 
   const results = { total: items.length, new: 0, updated: 0, errors: [] as string[] };
 
-  // Get all existing streeteasy URLs
+  // Get all existing URLs (across all sources)
   const existing = await db
     .select({
       id: listings.id,
       url: listings.url,
       price: listings.price,
       status: listings.status,
+      source: listings.source,
     })
-    .from(listings)
-    .where(eq(listings.source, "streeteasy"));
+    .from(listings);
 
   const existingByUrl = new Map(existing.map((e) => [e.url, e]));
   const fetchedUrls = new Set(items.map((f) => f.url));
+
+  // Determine which sources are in this batch (for missed-scrape tracking)
+  const batchSources = new Set(items.map((f) => f.source));
 
   for (const item of items) {
     try {
@@ -67,6 +70,11 @@ export async function POST(request: NextRequest) {
           hasLaundry: item.hasLaundry,
           hasElevator: item.hasElevator,
           photoCount: item.photoCount,
+          imageUrl: item.imageUrl,
+          availableDate: item.availableDate,
+          endDate: item.endDate,
+          city: item.city,
+          listingType: item.listingType,
           score,
           lastChecked: new Date(),
           missedScrapes: 0,
@@ -93,10 +101,11 @@ export async function POST(request: NextRequest) {
     }
   }
 
-  // Mark missing listings (not seen in this scrape)
+  // Mark missing listings (only for sources in this batch)
   for (const [url, row] of existingByUrl) {
     if (
       !fetchedUrls.has(url) &&
+      batchSources.has(row.source) &&
       row.status !== "off_market" &&
       row.status !== "dismissed"
     ) {

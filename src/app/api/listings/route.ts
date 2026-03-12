@@ -7,6 +7,8 @@ export async function GET(request: NextRequest) {
   const params = request.nextUrl.searchParams;
 
   const status = params.get("status");
+  const city = params.get("city");
+  const listingType = params.get("listingType");
   const neighborhood = params.get("neighborhood");
   const minPrice = params.get("minPrice");
   const maxPrice = params.get("maxPrice");
@@ -20,6 +22,12 @@ export async function GET(request: NextRequest) {
   const conditions = [];
   if (status) {
     conditions.push(eq(listings.status, status));
+  }
+  if (city) {
+    conditions.push(eq(listings.city, city));
+  }
+  if (listingType) {
+    conditions.push(eq(listings.listingType, listingType));
   }
   if (neighborhood) {
     conditions.push(eq(listings.neighborhood, neighborhood));

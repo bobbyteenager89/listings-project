@@ -6,6 +6,13 @@ import { Button } from "@/components/ui/button";
 import { TableCell, TableRow } from "@/components/ui/table";
 import type { Listing } from "@/lib/db/schema";
 
+function daysAgo(date: Date | string | null | undefined): number | null {
+  if (!date) return null;
+  const d = new Date(date);
+  if (isNaN(d.getTime())) return null;
+  return Math.floor((Date.now() - d.getTime()) / (1000 * 60 * 60 * 24));
+}
+
 export function ListingRow({ listing }: { listing: Listing }) {
   const [expanded, setExpanded] = useState(false);
   const [status, setStatus] = useState(listing.status);
@@ -35,35 +42,60 @@ export function ListingRow({ listing }: { listing: Listing }) {
 
   const isDismissed = status === "dismissed";
   const price = listing.netEffective ?? listing.price;
+  const days = daysAgo(listing.firstSeen);
+  const isStale = days !== null && days > 30 && !listing.newDev;
 
   return (
     <>
       <TableRow
         onClick={() => setExpanded(!expanded)}
-        className={`cursor-pointer ${isDismissed ? "opacity-40 line-through" : ""}`}
+        className={`cursor-pointer ${isDismissed ? "opacity-40" : ""} ${isStale ? "bg-amber-50/50" : ""}`}
       >
         <TableCell>
-          <a
-            href={listing.url}
-            target="_blank"
-            rel="noopener"
-            onClick={(e) => e.stopPropagation()}
-            className="text-primary hover:underline"
-          >
-            {listing.address}
-            {listing.unit ? ` #${listing.unit}` : ""}
-          </a>
+          <div className="flex items-center gap-3">
+            {listing.imageUrl ? (
+              <img
+                src={listing.imageUrl}
+                alt=""
+                className="w-16 h-12 object-cover rounded flex-shrink-0"
+              />
+            ) : (
+              <div className="w-16 h-12 bg-zinc-100 rounded flex-shrink-0 flex items-center justify-center text-zinc-400 text-xs">
+                No img
+              </div>
+            )}
+            <div className="min-w-0">
+              <a
+                href={listing.url}
+                target="_blank"
+                rel="noopener"
+                onClick={(e) => e.stopPropagation()}
+                className="text-primary hover:underline font-medium truncate block"
+              >
+                {listing.address}
+                {listing.unit ? ` ${listing.unit}` : ""}
+              </a>
+              <div className="text-xs text-muted-foreground">
+                {listing.neighborhood}
+                {listing.city === "la" ? " · LA" : ""}
+                {listing.listingType === "sublet" && " · sublet"}
+              </div>
+            </div>
+          </div>
         </TableCell>
-        <TableCell>{listing.neighborhood}</TableCell>
         <TableCell className="font-semibold">
           ${price?.toLocaleString()}
           {listing.netEffective && listing.netEffective !== listing.price && (
-            <span className="text-xs text-muted-foreground ml-1">
-              (net)
-            </span>
+            <span className="text-xs text-muted-foreground ml-1">(net)</span>
           )}
         </TableCell>
         <TableCell>{listing.sqft ?? "—"}</TableCell>
+        <TableCell>
+          <span className={`text-sm ${isStale ? "text-amber-600 font-medium" : "text-muted-foreground"}`}>
+            {days !== null ? `${days}d` : "—"}
+          </span>
+          {isStale && <span className="text-xs text-amber-500 ml-1">stale</span>}
+        </TableCell>
         <TableCell>
           <div className="flex gap-1 flex-wrap">
             {listing.noFee && <Badge variant="destructive">No Fee</Badge>}
@@ -72,7 +104,7 @@ export function ListingRow({ listing }: { listing: Listing }) {
             {listing.newDev && <Badge variant="outline">New Dev</Badge>}
           </div>
         </TableCell>
-        <TableCell className="font-mono">{listing.score?.toFixed(1)}</TableCell>
+        <TableCell className="font-mono text-lg">{listing.score?.toFixed(0)}</TableCell>
         <TableCell onClick={(e) => e.stopPropagation()}>
           <div className="flex gap-1">
             <Button
@@ -102,17 +134,35 @@ export function ListingRow({ listing }: { listing: Listing }) {
         <TableRow>
           <TableCell colSpan={7} className="bg-muted/50 p-4">
             <div className="grid gap-2 text-sm">
-              <div>
-                <strong>First seen:</strong>{" "}
-                {listing.firstSeen
-                  ? new Date(listing.firstSeen).toLocaleDateString()
-                  : "—"}
+              <div className="flex gap-4">
+                <div>
+                  <strong>First seen:</strong>{" "}
+                  {listing.firstSeen
+                    ? new Date(listing.firstSeen).toLocaleDateString()
+                    : "—"}
+                </div>
+                <div>
+                  <strong>Photos:</strong> {listing.photoCount ?? 0}
+                </div>
+                <div>
+                  <strong>Source:</strong> {listing.source}
+                </div>
+                {listing.availableDate && (
+                  <div>
+                    <strong>Available:</strong> {listing.availableDate}
+                    {listing.endDate && ` – ${listing.endDate}`}
+                  </div>
+                )}
               </div>
               <div>
-                <strong>Photos:</strong> {listing.photoCount ?? 0}
-              </div>
-              <div>
-                <strong>Source:</strong> {listing.source}
+                <a
+                  href={listing.url}
+                  target="_blank"
+                  rel="noopener"
+                  className="text-primary hover:underline text-xs"
+                >
+                  View on {listing.source === "streeteasy" ? "StreetEasy" : "Listings Project"} →
+                </a>
               </div>
               <div>
                 <label className="font-semibold block mb-1">Notes:</label>

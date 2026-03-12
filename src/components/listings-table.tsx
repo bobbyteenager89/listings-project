@@ -24,6 +24,8 @@ export function ListingsTable() {
   const [loading, setLoading] = useState(true);
 
   const status = searchParams.get("status") ?? "";
+  const city = searchParams.get("city") ?? "";
+  const listingType = searchParams.get("listingType") ?? "";
   const sortBy = searchParams.get("sortBy") ?? "score";
   const sortDir = searchParams.get("sortDir") ?? "desc";
   const page = parseInt(searchParams.get("page") ?? "1");
@@ -32,6 +34,8 @@ export function ListingsTable() {
     setLoading(true);
     const params = new URLSearchParams();
     if (status) params.set("status", status);
+    if (city) params.set("city", city);
+    if (listingType) params.set("listingType", listingType);
     params.set("sortBy", sortBy);
     params.set("sortDir", sortDir);
     params.set("page", String(page));
@@ -42,7 +46,7 @@ export function ListingsTable() {
         setData(d);
         setLoading(false);
       });
-  }, [status, sortBy, sortDir, page]);
+  }, [status, city, listingType, sortBy, sortDir, page]);
 
   function toggleSort(column: string) {
     const params = new URLSearchParams(searchParams.toString());
@@ -69,13 +73,13 @@ export function ListingsTable() {
         <TableHeader>
           <TableRow>
             {[
-              { label: "Address", value: "address", sortable: false },
-              { label: "Neighborhood", value: "neighborhood", sortable: true },
+              { label: "Listing", value: "address", sortable: false },
               { label: "Price", value: "price", sortable: true },
               { label: "Sqft", value: "sqft", sortable: true },
+              { label: "Listed", value: "date", sortable: true },
               { label: "Tags", value: "tags", sortable: false },
               { label: "Score", value: "score", sortable: true },
-              { label: "Actions", value: "actions", sortable: false },
+              { label: "", value: "actions", sortable: false },
             ].map((col) => (
               <TableHead
                 key={col.value}
