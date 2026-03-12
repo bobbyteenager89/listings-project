@@ -18,12 +18,7 @@ const SE_BROOKLYN = [
 
 const SE_MANHATTAN = [
   { label: "East Village", slug: "east-village" },
-  { label: "West Village", slug: "west-village" },
   { label: "Lower East Side", slug: "lower-east-side" },
-  { label: "SoHo", slug: "soho" },
-  { label: "Tribeca", slug: "tribeca" },
-  { label: "Chelsea", slug: "chelsea" },
-  { label: "Gramercy", slug: "gramercy-park" },
 ];
 
 function seUrl(slug: string) {

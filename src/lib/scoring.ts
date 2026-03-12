@@ -8,6 +8,8 @@ const PREFERRED_NEIGHBORHOODS = new Set([
   "prospect heights",
   "gowanus",
   "red hook",
+  "east village",
+  "lower east side",
 ]);
 
 interface ScoreInput {
