@@ -47,7 +47,7 @@ export function FilterTabs() {
           <button
             key={tab.value}
             onClick={() => setParam("status", tab.value)}
-            className={`px-3 py-1.5 rounded-md text-sm font-medium transition-colors ${
+            className={`px-3 py-1.5 rounded-md text-base font-medium transition-colors ${
               currentStatus === tab.value
                 ? "bg-primary text-primary-foreground"
                 : "text-muted-foreground hover:bg-muted"
@@ -62,7 +62,7 @@ export function FilterTabs() {
           <button
             key={tab.value}
             onClick={() => setParam("city", tab.value)}
-            className={`px-3 py-1.5 rounded-md text-sm font-medium transition-colors ${
+            className={`px-3 py-1.5 rounded-md text-base font-medium transition-colors ${
               currentCity === tab.value
                 ? "bg-blue-600 text-white"
                 : "text-muted-foreground hover:bg-muted"
@@ -77,7 +77,7 @@ export function FilterTabs() {
           <button
             key={tab.value}
             onClick={() => setParam("listingType", tab.value)}
-            className={`px-3 py-1.5 rounded-md text-sm font-medium transition-colors ${
+            className={`px-3 py-1.5 rounded-md text-base font-medium transition-colors ${
               currentType === tab.value
                 ? "bg-emerald-600 text-white"
                 : "text-muted-foreground hover:bg-muted"

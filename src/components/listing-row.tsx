@@ -71,12 +71,12 @@ export function ListingRow({ listing }: { listing: Listing }) {
                 target="_blank"
                 rel="noopener"
                 onClick={(e) => e.stopPropagation()}
-                className="text-primary hover:underline font-medium truncate block"
+                className="text-primary hover:underline font-medium truncate block text-base"
               >
                 {listing.address}
                 {listing.unit ? ` ${listing.unit}` : ""}
               </a>
-              <div className="text-xs text-muted-foreground">
+              <div className="text-sm text-muted-foreground">
                 {listing.neighborhood}
                 {listing.city === "la" ? " · LA" : ""}
                 {listing.listingType === "sublet" && " · sublet"}
@@ -84,18 +84,18 @@ export function ListingRow({ listing }: { listing: Listing }) {
             </div>
           </div>
         </TableCell>
-        <TableCell className="font-semibold">
+        <TableCell className="font-semibold text-base">
           ${price?.toLocaleString()}
           {listing.netEffective && listing.netEffective !== listing.price && (
-            <span className="text-xs text-muted-foreground ml-1">(net)</span>
+            <span className="text-sm text-muted-foreground ml-1">(net)</span>
           )}
         </TableCell>
-        <TableCell>{listing.sqft ?? "—"}</TableCell>
+        <TableCell className="text-base">{listing.sqft ?? "—"}</TableCell>
         <TableCell>
-          <span className={`text-sm ${isStale ? "text-amber-600 font-medium" : "text-muted-foreground"}`}>
+          <span className={`text-base ${isStale ? "text-amber-600 font-medium" : "text-muted-foreground"}`}>
             {days !== null ? (days === 0 ? "today" : days === 1 ? "1d" : `${days}d`) : "—"}
           </span>
-          {isStale && <span className="text-xs text-amber-500 ml-1">stale</span>}
+          {isStale && <span className="text-sm text-amber-500 ml-1">stale</span>}
         </TableCell>
         <TableCell>
           <div className="flex gap-1 flex-wrap">
@@ -105,7 +105,7 @@ export function ListingRow({ listing }: { listing: Listing }) {
             {listing.newDev && <Badge variant="outline">New Dev</Badge>}
           </div>
         </TableCell>
-        <TableCell className="font-mono text-lg">{listing.score != null ? listing.score.toFixed(0) : "—"}</TableCell>
+        <TableCell className="font-mono text-xl">{listing.score != null ? listing.score.toFixed(0) : "—"}</TableCell>
         <TableCell onClick={(e) => e.stopPropagation()}>
           <div className="flex gap-1">
             <Button

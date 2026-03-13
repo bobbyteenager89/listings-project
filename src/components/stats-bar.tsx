@@ -20,7 +20,7 @@ export async function StatsBar() {
     : "Never";
 
   return (
-    <div className="flex items-center gap-6 text-sm text-muted-foreground border-b pb-3 mb-4">
+    <div className="flex items-center gap-6 text-base text-muted-foreground border-b pb-3 mb-4">
       <span>
         <strong className="text-foreground">{stats.total}</strong> active
       </span>

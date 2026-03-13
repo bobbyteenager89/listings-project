@@ -8,14 +8,14 @@ export default function Dashboard() {
     <main className="max-w-6xl mx-auto p-6">
       <div className="flex items-center justify-between mb-6">
         <div>
-          <h1 className="text-2xl font-bold mb-1">Listings</h1>
-          <p className="text-muted-foreground text-sm">
+          <h1 className="text-3xl font-bold mb-1">Listings</h1>
+          <p className="text-muted-foreground text-base">
             NYC & LA · Rentals & Sublets
           </p>
         </div>
         <a
           href="/scrape"
-          className="text-sm text-blue-600 hover:underline"
+          className="text-base text-blue-600 hover:underline"
         >
           Scrape →
         </a>

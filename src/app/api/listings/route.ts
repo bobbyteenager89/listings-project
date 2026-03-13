@@ -22,6 +22,9 @@ export async function GET(request: NextRequest) {
   const conditions = [];
   if (status) {
     conditions.push(eq(listings.status, status));
+  } else {
+    // Default view: hide off_market listings
+    conditions.push(sql`${listings.status} != 'off_market'`);
   }
   if (city) {
     conditions.push(eq(listings.city, city));
