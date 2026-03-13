@@ -2,8 +2,16 @@ import { Suspense } from "react";
 import { StatsBar } from "@/components/stats-bar";
 import { FilterTabs } from "@/components/filter-tabs";
 import { ListingsTable } from "@/components/listings-table";
+import { BuildingsList } from "@/components/buildings-list";
 
-export default function Dashboard() {
+export default async function Dashboard({
+  searchParams,
+}: {
+  searchParams: Promise<Record<string, string>>;
+}) {
+  const params = await searchParams;
+  const isBuildings = params.status === "buildings";
+
   return (
     <main className="max-w-6xl mx-auto p-6">
       <div className="flex items-center justify-between mb-6">
@@ -21,17 +29,25 @@ export default function Dashboard() {
         </a>
       </div>
 
-      <Suspense fallback={<div className="text-muted-foreground">Loading stats...</div>}>
-        <StatsBar />
-      </Suspense>
+      {!isBuildings && (
+        <Suspense fallback={<div className="text-muted-foreground">Loading stats...</div>}>
+          <StatsBar />
+        </Suspense>
+      )}
 
       <Suspense fallback={null}>
         <FilterTabs />
       </Suspense>
 
-      <Suspense fallback={<div className="text-muted-foreground">Loading listings...</div>}>
-        <ListingsTable />
-      </Suspense>
+      {isBuildings ? (
+        <Suspense fallback={<div className="text-muted-foreground">Loading buildings...</div>}>
+          <BuildingsList />
+        </Suspense>
+      ) : (
+        <Suspense fallback={<div className="text-muted-foreground">Loading listings...</div>}>
+          <ListingsTable />
+        </Suspense>
+      )}
     </main>
   );
 }
