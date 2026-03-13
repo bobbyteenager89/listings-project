@@ -41,6 +41,7 @@ export function ListingRow({ listing }: { listing: Listing }) {
   }
 
   const isDismissed = status === "dismissed";
+  const isOffMarket = status === "off_market";
   const price = listing.netEffective ?? listing.price;
   const days = daysAgo(listing.firstSeen);
   const isStale = days !== null && days > 30 && !listing.newDev;
@@ -49,7 +50,7 @@ export function ListingRow({ listing }: { listing: Listing }) {
     <>
       <TableRow
         onClick={() => setExpanded(!expanded)}
-        className={`cursor-pointer ${isDismissed ? "opacity-40" : ""} ${isStale ? "bg-amber-50/50" : ""}`}
+        className={`cursor-pointer ${isDismissed ? "opacity-40" : ""} ${isOffMarket ? "opacity-50 line-through" : ""} ${isStale ? "bg-amber-50/50" : ""}`}
       >
         <TableCell>
           <div className="flex items-center gap-3">
@@ -126,6 +127,17 @@ export function ListingRow({ listing }: { listing: Listing }) {
               disabled={saving}
             >
               ✕
+            </Button>
+            <Button
+              size="sm"
+              variant={isOffMarket ? "default" : "ghost"}
+              onClick={() =>
+                updateStatus(isOffMarket ? "active" : "off_market")
+              }
+              disabled={saving}
+              title="Mark off market"
+            >
+              ⊘
             </Button>
           </div>
         </TableCell>

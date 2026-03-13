@@ -7,6 +7,7 @@ const STATUS_TABS = [
   { label: "New", value: "new" },
   { label: "Favorites", value: "favorite" },
   { label: "Dismissed", value: "dismissed" },
+  { label: "Off Market", value: "off_market" },
 ];
 
 const CITY_TABS = [

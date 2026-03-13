@@ -12,7 +12,7 @@ export async function PATCH(
 
   const updates: Record<string, unknown> = {};
 
-  if (body.status && ["new", "active", "favorite", "dismissed"].includes(body.status)) {
+  if (body.status && ["new", "active", "favorite", "dismissed", "off_market"].includes(body.status)) {
     updates.status = body.status;
   }
 
