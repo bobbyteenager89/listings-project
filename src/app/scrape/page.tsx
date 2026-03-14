@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useCallback } from "react";
+import { useState, useEffect, useCallback } from "react";
 
 const SE_BROOKLYN = [
   { label: "Park Slope", slug: "park-slope" },
@@ -57,6 +57,16 @@ type LogEntry = {
 export default function ScrapePage() {
   const [logs, setLogs] = useState<LogEntry[]>([]);
   const [secret, setSecret] = useState("");
+
+  useEffect(() => {
+    const saved = localStorage.getItem("cron_secret");
+    if (saved) setSecret(saved);
+  }, []);
+
+  function handleSecretChange(value: string) {
+    setSecret(value);
+    localStorage.setItem("cron_secret", value);
+  }
 
   const log = useCallback(
     (msg: string, type: LogEntry["type"] = "info") => {
@@ -147,7 +157,7 @@ export default function ScrapePage() {
         <input
           type="password"
           value={secret}
-          onChange={(e) => setSecret(e.target.value)}
+          onChange={(e) => handleSecretChange(e.target.value)}
           placeholder="Paste your CRON_SECRET..."
           className="w-full p-2 border rounded text-sm font-mono"
         />
